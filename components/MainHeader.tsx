@@ -22,12 +22,14 @@ export const MainHeader: React.FC<Props> = ({
     onChangeTitle,
     onChangeBody
 }: Props) => {
-    const { darkMode } = useSelector((state: SelectorState) => state.user);
+    const { token, pageId, darkMode } = useSelector(
+        (state: SelectorState) => state.user
+    );
     const colorPalette = colorScheme(darkMode);
     const post = () => {
         postToNotion({
-            pageId: '8067fa92c8ac46a08483bceeb4a1020e',
-            token: 'secret_hCSKm1ChCz2QpH1hEQ7TH01Rdh7ghrv6LTuBE5TY7x',
+            token,
+            pageId,
             title,
             body
         });
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         borderBottomWidth: 1,
-        marginBottom: 48
+        marginBottom: 32
     },
     headerContent: {
         alignSelf: 'flex-end',

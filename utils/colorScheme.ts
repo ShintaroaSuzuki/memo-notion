@@ -1,10 +1,10 @@
 export const colorScheme = (mode: boolean) => {
     return mode
         ? {
-              backgroundColor: '#333',
-              fontColor: '#eee',
+              backgroundColor: '#2f3336',
+              fontColor: '#ebebeb',
               borderColor: '#777',
-              textInputColor: '#555',
+              textInputColor: '#454A4D',
               placeholderColor: '#aaa',
               activeColor: '#03dac4',
               deactiveColor: '#777'

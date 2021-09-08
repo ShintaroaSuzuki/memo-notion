@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, SafeAreaView, View, Text, TextInput } from 'react-native';
+import { StyleSheet, SafeAreaView, View, TextInput } from 'react-native';
 import { MainHeader } from '../components/MainHeader';
 import { StackParamList, SelectorState } from '../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -57,7 +57,7 @@ export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
                             backgroundColor: colorPalette.textInputColor
                         }
                     ]}
-                    placeholder="title"
+                    placeholder="How to make a delicious cake"
                     placeholderTextColor={colorPalette.placeholderColor}
                     value={title}
                     onChangeText={onChangeTitle}
@@ -76,7 +76,7 @@ export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
                             backgroundColor: colorPalette.textInputColor
                         }
                     ]}
-                    placeholder="body"
+                    placeholder="Don't mistake salt for sugar"
                     placeholderTextColor={colorPalette.placeholderColor}
                     value={body}
                     onChangeText={onChangeBody}
@@ -105,13 +105,13 @@ const styles = StyleSheet.create({
     textInput: {
         borderRadius: 4,
         width: 360,
-        padding: 8
+        paddingHorizontal: 8,
+        paddingVertical: 12
     },
     titleInput: {
-        height: 32,
         marginBottom: 20
     },
     bodyInput: {
-        height: 240
+        height: 200
     }
 });

@@ -83,7 +83,8 @@ const styles = StyleSheet.create({
     textInput: {
         borderRadius: 4,
         width: 360,
-        padding: 8,
+        paddingHorizontal: 8,
+        paddingVertical: 12,
         marginBottom: 24
     },
     darkModeContainer: {

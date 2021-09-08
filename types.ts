@@ -1,6 +1,6 @@
 export type PostArgument = {
-    pageId: string;
     token: string;
+    pageId: string;
     title: string;
     body: string;
 };
@@ -11,8 +11,8 @@ export type StackParamList = {
 };
 
 export type UserState = {
-    token: string | undefined;
-    pageId: string | undefined;
+    token: string;
+    pageId: string;
     darkMode: boolean;
 };
 

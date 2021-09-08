@@ -1,4 +1,4 @@
-import { UserState, UserAction } from '../../types';
+import { UserAction } from '../../types';
 
 export const setToken = (token: string): UserAction => {
     return {
