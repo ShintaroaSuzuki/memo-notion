@@ -14,7 +14,7 @@ export const setPageId = (pageId: string): UserAction => {
     };
 };
 
-export const setDarkMode = (): UserAction => {
+export const setDarkMode = (): any => {
     return {
         type: 'SET_DARK_MODE'
     };

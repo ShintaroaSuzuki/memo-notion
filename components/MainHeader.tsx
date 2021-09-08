@@ -1,25 +1,51 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { postToNotion } from '../utils/postToNotion';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { StackParamList } from '../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSelector } from 'react-redux';
+import { colorScheme } from '../utils/colorScheme';
+import { StackParamList, SelectorState } from '../types';
 
 type Props = {
     navigation: NativeStackNavigationProp<StackParamList, 'Main'>;
     title: string;
     body: string;
+    onChangeTitle: Dispatch<SetStateAction<string>>;
+    onChangeBody: Dispatch<SetStateAction<string>>;
 };
 
 export const MainHeader: React.FC<Props> = ({
     navigation,
     title,
-    body
+    body,
+    onChangeTitle,
+    onChangeBody
 }: Props) => {
+    const { darkMode } = useSelector((state: SelectorState) => state.user);
+    const colorPalette = colorScheme(darkMode);
+    const post = () => {
+        postToNotion({
+            pageId: '8067fa92c8ac46a08483bceeb4a1020e',
+            token: 'secret_hCSKm1ChCz2QpH1hEQ7TH01Rdh7ghrv6LTuBE5TY7x',
+            title,
+            body
+        });
+        onChangeTitle('');
+        onChangeBody('');
+    };
+
     return (
-        <View style={styles.container}>
+        <View
+            style={{
+                ...styles.container,
+                borderColor: colorPalette.borderColor
+            }}
+        >
             <TouchableOpacity
-                onPress={() => navigation.navigate('Settings')}
+                onPress={() => {
+                    navigation.navigate('Settings');
+                }}
                 style={[styles.headerContent, styles.settingsButtonContainer]}
             >
                 <Icon
@@ -28,25 +54,27 @@ export const MainHeader: React.FC<Props> = ({
                     style={[styles.settingsButton]}
                 />
             </TouchableOpacity>
-            <Text style={[styles.headerContent, styles.headerTitle]}>
+            <Text
+                style={[
+                    styles.headerContent,
+                    styles.headerTitle,
+                    { color: colorPalette.fontColor }
+                ]}
+            >
                 new memo
             </Text>
             <Text
                 style={[
                     styles.headerContent,
                     styles.postButton,
-                    { color: title && body ? '#007aff' : '#ccc' }
+                    {
+                        color:
+                            title && body
+                                ? colorPalette.activeColor
+                                : colorPalette.deactiveColor
+                    }
                 ]}
-                onPress={() =>
-                    title &&
-                    body &&
-                    postToNotion({
-                        pageId: '8067fa92c8ac46a08483bceeb4a1020e',
-                        token: 'secret_hCSKm1ChCz2QpH1hEQ7TH01Rdh7ghrv6LTuBE5TY7x',
-                        title,
-                        body
-                    })
-                }
+                onPress={() => title && body && post()}
             >
                 post
             </Text>
@@ -61,7 +89,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         borderBottomWidth: 1,
-        borderColor: '#eee',
         marginBottom: 48
     },
     headerContent: {

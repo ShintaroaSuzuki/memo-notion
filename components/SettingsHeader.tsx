@@ -1,23 +1,38 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { StackParamList } from '../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSelector } from 'react-redux';
+import { colorScheme } from '../utils/colorScheme';
+import { StackParamList, SelectorState } from '../types';
 
 type Props = {
     navigation: NativeStackNavigationProp<StackParamList, 'Settings'>;
 };
 
 export const SettingsHeader: React.FC<Props> = ({ navigation }: Props) => {
+    const { darkMode } = useSelector((state: SelectorState) => state.user);
+    const colorPalette = colorScheme(darkMode);
     return (
-        <View style={styles.container}>
+        <View
+            style={{
+                ...styles.container,
+                borderColor: colorPalette.borderColor
+            }}
+        >
             <TouchableOpacity
                 onPress={() => navigation.goBack()}
                 style={[styles.headerContent, styles.settingsButtonContainer]}
             >
                 <Icon name="close" size={20} style={[styles.settingsButton]} />
             </TouchableOpacity>
-            <Text style={[styles.headerContent, styles.headerTitle]}>
+            <Text
+                style={[
+                    styles.headerContent,
+                    styles.headerTitle,
+                    { color: colorPalette.fontColor }
+                ]}
+            >
                 settings
             </Text>
         </View>
@@ -31,7 +46,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         borderBottomWidth: 1,
-        borderColor: '#eee',
         marginBottom: 48
     },
     headerContent: {
