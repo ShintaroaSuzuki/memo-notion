@@ -34,7 +34,7 @@ export const SettingsScreen: React.FC<Props> = ({ navigation }: Props) => {
                     color: colorPalette.fontColor,
                     backgroundColor: colorPalette.textInputColor
                 }}
-                placeholder="set your token"
+                placeholder="set your integration token"
                 placeholderTextColor={colorPalette.placeholderColor}
                 value={token}
                 onChangeText={(text) => dispatch(setToken(text))}
@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     },
     darkModeLabel: {
         position: 'absolute',
-        left: 0
+        left: 0,
+        fontSize: 16
     },
     switch: {
         position: 'absolute',

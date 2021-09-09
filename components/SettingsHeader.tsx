@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 import { colorScheme } from '../utils/colorScheme';
@@ -24,7 +24,7 @@ export const SettingsHeader: React.FC<Props> = ({ navigation }: Props) => {
                 onPress={() => navigation.goBack()}
                 style={[styles.headerContent, styles.settingsButtonContainer]}
             >
-                <Icon name="close" size={20} style={[styles.settingsButton]} />
+                <Icon name="x" size={20} style={[styles.settingsButton]} />
             </TouchableOpacity>
             <Text
                 style={[
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
         color: '#aaa'
     },
     headerTitle: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: 16
     }
 });

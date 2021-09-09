@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Alert } from 'react-native';
 import { postToNotion } from '../utils/postToNotion';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 import { colorScheme } from '../utils/colorScheme';
@@ -11,30 +11,32 @@ type Props = {
     navigation: NativeStackNavigationProp<StackParamList, 'Main'>;
     title: string;
     body: string;
-    onChangeTitle: Dispatch<SetStateAction<string>>;
-    onChangeBody: Dispatch<SetStateAction<string>>;
+    _onPress: () => void;
 };
 
 export const MainHeader: React.FC<Props> = ({
     navigation,
     title,
     body,
-    onChangeTitle,
-    onChangeBody
+    _onPress
 }: Props) => {
     const { token, pageId, darkMode } = useSelector(
         (state: SelectorState) => state.user
     );
     const colorPalette = colorScheme(darkMode);
-    const post = () => {
-        postToNotion({
+    const post = async () => {
+        const response = await postToNotion({
             token,
             pageId,
             title,
             body
         });
-        onChangeTitle('');
-        onChangeBody('');
+        if (response == 'APIResponseError') {
+            Alert.alert(
+                'Either one or both of your token and page id is invalid'
+            );
+        }
+        _onPress();
     };
 
     return (
@@ -100,15 +102,18 @@ const styles = StyleSheet.create({
         position: 'absolute'
     },
     settingsButtonContainer: {
-        left: 24
+        left: 24,
+        marginBottom: 0
     },
     settingsButton: {
         color: '#aaa'
     },
     headerTitle: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: 16
     },
     postButton: {
-        right: 24
+        right: 24,
+        fontSize: 16
     }
 });

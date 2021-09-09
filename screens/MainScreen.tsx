@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, SafeAreaView, View, TextInput } from 'react-native';
+import {
+    StyleSheet,
+    SafeAreaView,
+    View,
+    Text,
+    TextInput,
+    LogBox,
+    Animated
+} from 'react-native';
 import { MainHeader } from '../components/MainHeader';
 import { StackParamList, SelectorState } from '../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -11,12 +19,32 @@ type Props = {
 };
 
 export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
-    const { darkMode } = useSelector((state: SelectorState) => state.user);
+    const { token, pageId, darkMode } = useSelector(
+        (state: SelectorState) => state.user
+    );
     const colorPalette = colorScheme(darkMode);
+
+    const vibrationAnim = useRef(new Animated.Value(0)).current;
 
     const titleFocus = () => {
         titleRef.current?.focus();
     };
+
+    const _onPress = () => {
+        vibrationAnim.setValue(0);
+        Animated.timing(vibrationAnim, {
+            toValue: 100,
+            duration: 500,
+            useNativeDriver: false
+        }).start();
+        onChangeTitle('');
+        onChangeBody('');
+    };
+
+    const interpolatedValue = vibrationAnim.interpolate({
+        inputRange: [0, 12.5, 25, 37.5, 50, 62.5, 75, 87.5, 100],
+        outputRange: [0, -8, 0, 8, 0, -4, 0, 4, 0]
+    });
 
     const bodyFocus = () => {
         bodyRef.current?.focus();
@@ -32,6 +60,8 @@ export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
     const titleRef = useRef<TextInput>(null);
     const bodyRef = useRef<TextInput>(null);
 
+    LogBox.ignoreLogs(['@notionhq/client warn']);
+
     return (
         <SafeAreaView
             style={{
@@ -43,48 +73,72 @@ export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
                 navigation={navigation}
                 title={title}
                 body={body}
-                onChangeTitle={onChangeTitle}
-                onChangeBody={onChangeBody}
+                _onPress={_onPress}
             />
-            <View style={styles.inputArea}>
-                <TextInput
-                    ref={titleRef}
-                    style={[
-                        styles.textInput,
-                        styles.titleInput,
-                        {
-                            color: colorPalette.fontColor,
-                            backgroundColor: colorPalette.textInputColor
-                        }
-                    ]}
-                    placeholder="How to make a delicious cake"
-                    placeholderTextColor={colorPalette.placeholderColor}
-                    value={title}
-                    onChangeText={onChangeTitle}
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    returnKeyType="done"
-                    onEndEditing={() => bodyFocus()}
-                />
-                <TextInput
-                    ref={bodyRef}
-                    style={[
-                        styles.textInput,
-                        styles.bodyInput,
-                        {
-                            color: colorPalette.fontColor,
-                            backgroundColor: colorPalette.textInputColor
-                        }
-                    ]}
-                    placeholder="Don't mistake salt for sugar"
-                    placeholderTextColor={colorPalette.placeholderColor}
-                    value={body}
-                    onChangeText={onChangeBody}
-                    multiline={true}
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                />
-            </View>
+            {token && pageId ? (
+                <View style={styles.inputArea}>
+                    <Animated.View
+                        style={{
+                            marginLeft: interpolatedValue
+                        }}
+                    >
+                        <TextInput
+                            ref={titleRef}
+                            style={[
+                                styles.textInput,
+                                styles.titleInput,
+                                {
+                                    color: colorPalette.fontColor,
+                                    backgroundColor: colorPalette.textInputColor
+                                }
+                            ]}
+                            placeholder="How To Make A Delicious Cake"
+                            placeholderTextColor={colorPalette.placeholderColor}
+                            value={title}
+                            onChangeText={onChangeTitle}
+                            autoCorrect={false}
+                            autoCapitalize="none"
+                            returnKeyType="done"
+                            onEndEditing={() => bodyFocus()}
+                        />
+                    </Animated.View>
+                    <Animated.View
+                        style={{
+                            marginLeft: interpolatedValue
+                        }}
+                    >
+                        <TextInput
+                            ref={bodyRef}
+                            style={[
+                                styles.textInput,
+                                styles.bodyInput,
+                                {
+                                    color: colorPalette.fontColor,
+                                    backgroundColor: colorPalette.textInputColor
+                                }
+                            ]}
+                            placeholder="Don't mistake salt for sugar."
+                            placeholderTextColor={colorPalette.placeholderColor}
+                            value={body}
+                            onChangeText={onChangeBody}
+                            multiline={true}
+                            autoCorrect={false}
+                            autoCapitalize="none"
+                        />
+                    </Animated.View>
+                </View>
+            ) : (
+                <View style={styles.initialScreenContainer}>
+                    <Text
+                        style={{
+                            ...styles.initialScreenText,
+                            color: colorPalette.fontColor
+                        }}
+                    >
+                        set your token and page id
+                    </Text>
+                </View>
+            )}
         </SafeAreaView>
     );
 };
@@ -95,8 +149,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%'
     },
+    initialScreenContainer: {},
+    initialScreenText: { marginTop: 256, fontSize: 16 },
     inputArea: {
-        width: 360
+        width: '100%',
+        alignItems: 'center'
     },
     label: {
         alignSelf: 'flex-start',
