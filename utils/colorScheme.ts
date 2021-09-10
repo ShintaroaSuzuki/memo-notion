@@ -7,7 +7,8 @@ export const colorScheme = (mode: boolean) => {
               textInputColor: '#454A4D',
               placeholderColor: '#aaa',
               activeColor: '#03dac4',
-              deactiveColor: '#777'
+              deactiveColor: '#777',
+              urlColor: '#ccc'
           }
         : {
               backgroundColor: '#fff',
@@ -16,6 +17,7 @@ export const colorScheme = (mode: boolean) => {
               textInputColor: '#eee',
               placeholderColor: '#999',
               activeColor: '#007aff',
-              deactiveColor: '#ccc'
+              deactiveColor: '#ccc',
+              urlColor: '#777'
           };
 };
