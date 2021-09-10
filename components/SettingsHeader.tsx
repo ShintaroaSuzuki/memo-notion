@@ -50,18 +50,20 @@ const styles = StyleSheet.create({
     },
     headerContent: {
         alignSelf: 'flex-end',
-        bottom: 8,
-        height: 20,
+        height: 36,
         position: 'absolute'
     },
     settingsButtonContainer: {
-        left: 24
+        left: 8
     },
     settingsButton: {
-        color: '#aaa'
+        color: '#aaa',
+        paddingVertical: 8,
+        paddingHorizontal: 16
     },
     headerTitle: {
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
+        paddingVertical: 8
     }
 });

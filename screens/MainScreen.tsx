@@ -79,7 +79,7 @@ export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
                 <View style={styles.inputArea}>
                     <Animated.View
                         style={{
-                            marginLeft: interpolatedValue
+                            marginTop: interpolatedValue
                         }}
                     >
                         <TextInput
@@ -102,11 +102,7 @@ export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
                             onEndEditing={() => bodyFocus()}
                         />
                     </Animated.View>
-                    <Animated.View
-                        style={{
-                            marginLeft: interpolatedValue
-                        }}
-                    >
+                    <Animated.View>
                         <TextInput
                             ref={bodyRef}
                             style={[

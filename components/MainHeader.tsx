@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Alert } from 'react-native';
 import { postToNotion } from '../utils/postToNotion';
 import Icon from 'react-native-vector-icons/Feather';
@@ -25,6 +25,7 @@ export const MainHeader: React.FC<Props> = ({
     );
     const colorPalette = colorScheme(darkMode);
     const post = async () => {
+        setPressed(true);
         const response = await postToNotion({
             token,
             pageId,
@@ -35,9 +36,16 @@ export const MainHeader: React.FC<Props> = ({
             Alert.alert(
                 'Either one or both of your token and page id is invalid'
             );
+        } else {
+            _onPress();
+            setDisplaySuccess(true);
+            setTimeout(() => setDisplaySuccess(false), 1500);
         }
-        _onPress();
+        setPressed(false);
     };
+
+    const [pressed, setPressed] = useState<boolean>(false);
+    const [displaySuccess, setDisplaySuccess] = useState<boolean>(false);
 
     return (
         <View
@@ -72,15 +80,16 @@ export const MainHeader: React.FC<Props> = ({
                     styles.headerContent,
                     styles.postButton,
                     {
-                        color:
-                            title && body
-                                ? colorPalette.activeColor
-                                : colorPalette.deactiveColor
+                        color: displaySuccess
+                            ? colorPalette.activeColor
+                            : title && !pressed
+                            ? colorPalette.activeColor
+                            : colorPalette.deactiveColor
                     }
                 ]}
-                onPress={() => title && body && post()}
+                onPress={() => title && !pressed && !displaySuccess && post()}
             >
-                post
+                {displaySuccess ? 'success!' : pressed ? 'posting...' : 'post'}
             </Text>
         </View>
     );
@@ -97,23 +106,26 @@ const styles = StyleSheet.create({
     },
     headerContent: {
         alignSelf: 'flex-end',
-        bottom: 8,
-        height: 20,
+        height: 36,
         position: 'absolute'
     },
     settingsButtonContainer: {
-        left: 24,
-        marginBottom: 0
+        left: 8
     },
     settingsButton: {
-        color: '#aaa'
+        color: '#aaa',
+        paddingHorizontal: 16,
+        paddingVertical: 8
     },
     headerTitle: {
         fontWeight: 'bold',
-        fontSize: 16
+        fontSize: 16,
+        paddingVertical: 8
     },
     postButton: {
-        right: 24,
-        fontSize: 16
+        right: 8,
+        fontSize: 16,
+        paddingHorizontal: 16,
+        paddingVertical: 8
     }
 });
