@@ -19,8 +19,7 @@ export const StackNavigator = () => {
                     name="Settings"
                     component={SettingsScreen}
                     options={{
-                        headerShown: false,
-                        gestureEnabled: false
+                        headerShown: false
                     }}
                 />
             </Stack.Group>

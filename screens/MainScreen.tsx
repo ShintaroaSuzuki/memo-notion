@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { MainHeader } from '../components/MainHeader';
 import { StackParamList, SelectorState } from '../types';
+import { useFocusEffect } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 import { colorScheme } from '../utils/colorScheme';
@@ -34,7 +35,7 @@ export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
         vibrationAnim.setValue(0);
         Animated.timing(vibrationAnim, {
             toValue: 100,
-            duration: 500,
+            duration: 200,
             useNativeDriver: false
         }).start();
         onChangeTitle('');
@@ -42,17 +43,20 @@ export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
     };
 
     const interpolatedValue = vibrationAnim.interpolate({
-        inputRange: [0, 12.5, 25, 37.5, 50, 62.5, 75, 87.5, 100],
-        outputRange: [0, -8, 0, 8, 0, -4, 0, 4, 0]
+        inputRange: [0, 40, 80, 90, 100],
+        outputRange: [0, -8, 0, 4, 0]
     });
 
     const bodyFocus = () => {
         bodyRef.current?.focus();
     };
 
-    useEffect(() => {
-        titleFocus();
-    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            const unsubscribe = () => titleFocus();
+            return () => unsubscribe();
+        }, [])
+    );
 
     const [title, onChangeTitle] = useState('');
     const [body, onChangeBody] = useState('');
@@ -99,7 +103,7 @@ export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
                             autoCorrect={false}
                             autoCapitalize="none"
                             returnKeyType="done"
-                            onEndEditing={() => bodyFocus()}
+                            onSubmitEditing={() => bodyFocus()}
                         />
                     </Animated.View>
                     <Animated.View>

@@ -72,32 +72,36 @@ export const SettingsScreen: React.FC<Props> = ({ navigation }: Props) => {
                     onValueChange={() => dispatch(setDarkMode())}
                 />
             </View>
-            <Text
-                style={{
-                    ...styles.HowToText,
-                    color: colorPalette.urlColor
-                }}
-                onPress={() =>
-                    Linking.openURL(
-                        'https://www.notion.so/shintaroa/How-To-Get-Your-Integration-Token-00a544786ea844a9b6b1a2a38d4a4e0e'
-                    )
-                }
-            >
-                how to get your integration token
-            </Text>
-            <Text
-                style={{
-                    ...styles.HowToText,
-                    color: colorPalette.urlColor
-                }}
-                onPress={() =>
-                    Linking.openURL(
-                        'https://www.notion.so/shintaroa/How-To-Get-Your-Page-ID-ad0199d28d004b8e9b6e41eda2b1166f'
-                    )
-                }
-            >
-                how to get your page id
-            </Text>
+            <View style={styles.HowToTextContainer}>
+                <Text
+                    style={{
+                        ...styles.HowToText,
+                        color: colorPalette.urlColor
+                    }}
+                    onPress={() =>
+                        Linking.openURL(
+                            'https://www.notion.so/shintaroa/How-To-Get-Your-Integration-Token-00a544786ea844a9b6b1a2a38d4a4e0e'
+                        )
+                    }
+                >
+                    how to get your integration token
+                </Text>
+            </View>
+            <View style={styles.HowToTextContainer}>
+                <Text
+                    style={{
+                        ...styles.HowToText,
+                        color: colorPalette.urlColor
+                    }}
+                    onPress={() =>
+                        Linking.openURL(
+                            'https://www.notion.so/shintaroa/How-To-Get-Your-Page-ID-ad0199d28d004b8e9b6e41eda2b1166f'
+                        )
+                    }
+                >
+                    how to get your page id
+                </Text>
+            </View>
         </SafeAreaView>
     );
 };
@@ -126,11 +130,14 @@ const styles = StyleSheet.create({
         left: 0,
         fontSize: 16
     },
-    HowToText: {
+    HowToTextContainer: {
         width: 360,
+        height: 48
+    },
+    HowToText: {
         fontSize: 16,
-        height: 48,
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
+        alignSelf: 'flex-start'
     },
     switch: {
         position: 'absolute',
