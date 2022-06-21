@@ -7,10 +7,10 @@ export const setToken = (token: string): UserAction => {
     };
 };
 
-export const setPageId = (pageId: string): UserAction => {
+export const setDatabaseId = (databaseId: string): UserAction => {
     return {
-        type: 'SET_PAGE_ID',
-        pageId
+        type: 'SET_DATABASE_ID',
+        databaseId
     };
 };
 

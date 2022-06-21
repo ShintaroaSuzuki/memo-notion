@@ -1,6 +1,6 @@
 export type PostArgument = {
-    token: string;
-    pageId: string;
+    token?: string;
+    databaseId?: string;
     title: string;
     body: string;
 };
@@ -11,15 +11,15 @@ export type StackParamList = {
 };
 
 export type UserState = {
-    token: string;
-    pageId: string;
+    token?: string;
+    databaseId?: string;
     darkMode: boolean;
 };
 
 export type UserAction = {
     type: string;
     token?: string;
-    pageId?: string;
+    databaseId?: string;
 };
 
 export type SelectorState = {

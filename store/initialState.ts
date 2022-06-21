@@ -2,6 +2,6 @@ import { UserState } from '../types';
 
 export const initialState: UserState = {
     token: '',
-    pageId: '',
+    databaseId: '',
     darkMode: false
 };

@@ -4,7 +4,7 @@ import { SettingsHeader } from '../components/SettingsHeader';
 import { StackParamList, SelectorState } from '../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPageId, setToken, setDarkMode } from '../store/actions/user';
+import { setDatabaseId, setToken, setDarkMode } from '../store/actions/user';
 import { Switch } from 'react-native-paper';
 import { colorScheme } from '../utils/colorScheme';
 import * as Linking from 'expo-linking';
@@ -16,7 +16,7 @@ type Props = {
 export const SettingsScreen: React.FC<Props> = ({ navigation }: Props) => {
     useEffect(() => {}, []);
     const dispatch = useDispatch();
-    const { token, pageId, darkMode } = useSelector(
+    const { token, databaseId, darkMode } = useSelector(
         (state: SelectorState) => state.user
     );
     const colorPalette = colorScheme(darkMode);
@@ -49,10 +49,10 @@ export const SettingsScreen: React.FC<Props> = ({ navigation }: Props) => {
                     color: colorPalette.fontColor,
                     backgroundColor: colorPalette.textInputColor
                 }}
-                placeholder="set your page id"
+                placeholder="set your database id"
                 placeholderTextColor={colorPalette.placeholderColor}
-                value={pageId}
-                onChangeText={(text) => dispatch(setPageId(text))}
+                value={databaseId}
+                onChangeText={(text) => dispatch(setDatabaseId(text))}
                 autoCorrect={false}
                 autoCapitalize="none"
                 returnKeyType="done"
@@ -99,7 +99,7 @@ export const SettingsScreen: React.FC<Props> = ({ navigation }: Props) => {
                         )
                     }
                 >
-                    how to get your page id
+                    how to get your database id
                 </Text>
             </View>
         </SafeAreaView>

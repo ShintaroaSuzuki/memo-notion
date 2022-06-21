@@ -20,7 +20,7 @@ export const MainHeader: React.FC<Props> = ({
     body,
     _onPress
 }: Props) => {
-    const { token, pageId, darkMode } = useSelector(
+    const { token, databaseId, darkMode } = useSelector(
         (state: SelectorState) => state.user
     );
     const colorPalette = colorScheme(darkMode);
@@ -28,7 +28,7 @@ export const MainHeader: React.FC<Props> = ({
         setPressed(true);
         const response = await postToNotion({
             token,
-            pageId,
+            databaseId,
             title,
             body
         });

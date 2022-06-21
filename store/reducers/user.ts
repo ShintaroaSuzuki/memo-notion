@@ -1,17 +1,20 @@
 import { initialState } from '../initialState';
-import { UserAction } from '../../types';
+import { UserAction, UserState } from '../../types';
 
-export const userReducer = (state = initialState, action: UserAction) => {
+export const userReducer = (
+    state = initialState,
+    action: UserAction
+): UserState => {
     switch (action.type) {
         case 'SET_TOKEN':
             return {
                 ...state,
                 token: action.token
             };
-        case 'SET_PAGE_ID':
+        case 'SET_DATABASE_ID':
             return {
                 ...state,
-                pageId: action.pageId
+                databaseId: action.databaseId
             };
         case 'SET_DARK_MODE':
             return {

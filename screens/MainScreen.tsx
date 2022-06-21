@@ -20,7 +20,7 @@ type Props = {
 };
 
 export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
-    const { token, pageId, darkMode } = useSelector(
+    const { token, databaseId, darkMode } = useSelector(
         (state: SelectorState) => state.user
     );
     const colorPalette = colorScheme(darkMode);
@@ -79,7 +79,7 @@ export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
                 body={body}
                 _onPress={_onPress}
             />
-            {token && pageId ? (
+            {token && databaseId ? (
                 <View style={styles.inputArea}>
                     <Animated.View
                         style={{
@@ -135,7 +135,7 @@ export const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
                             color: colorPalette.fontColor
                         }}
                     >
-                        set your token and page id
+                        set your token and database id
                     </Text>
                 </View>
             )}

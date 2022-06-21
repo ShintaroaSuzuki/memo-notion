@@ -4,7 +4,7 @@ import { Block } from '@notionhq/client/build/src/api-types';
 import emojis from './emojis';
 
 export const postToNotion = async ({
-    pageId,
+    databaseId,
     token,
     title,
     body
@@ -15,7 +15,7 @@ export const postToNotion = async ({
     try {
         const responce = await notion.pages.create({
             parent: {
-                page_id: pageId
+                database_id: databaseId || ''
             },
             icon: {
                 type: 'emoji',
